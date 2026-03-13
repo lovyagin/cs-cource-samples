@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -std=c11 -g
-LDFLAGS = -lcunit
+CFLAGS = -Wall -Wextra -std=c11 -g $(shell pkg-config --cflags cunit)
+LDFLAGS = $(shell pkg-config --libs cunit)
 
 SRC = int_array.c int_array_test.c
 OBJ = $(SRC:.c=.o)
