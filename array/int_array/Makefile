@@ -24,6 +24,7 @@ test: $(TARGET)
 
 clean:
 	rm -f $(OBJ) $(TARGET)
+	rm -fr docs
 
 docs: Doxyfile int_array.h int_array.c
 	doxygen Doxyfile
