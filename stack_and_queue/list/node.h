@@ -20,11 +20,10 @@ typedef struct node node;
  * @struct node
  * @brief Определение структуры узла.
  */
-struct node {
-
+struct node 
+{
     int data;      /**< Значение, хранящееся в узле */
     node *next;    /**< Указатель на следующий узел списка (NULL если последний) */
-
 };
 
 #endif /* NODE_H */
