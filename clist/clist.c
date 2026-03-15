@@ -16,8 +16,9 @@
  */
 typedef struct node
 {
-    int data;             /**< Значение, хранящееся в узле */
-    struct node *next;    /**< Указатель на следующий узел списка (не может быть NULL - список циклический) */
+    int data; /**< Значение, хранящееся в узле */
+    struct node *
+        next; /**< Указатель на следующий узел списка (не может быть NULL - список циклический) */
 } node;
 
 /**
@@ -45,11 +46,11 @@ void clist_free(clist *lst)
     if (lst->current)
     {
         node *start = lst->current;
-        node *node = start->next;
+        node *node  = start->next;
         while (node != start)
         {
             struct node *tmp = node;
-            node = node->next;
+            node             = node->next;
             free(tmp);
         }
         free(start);
@@ -73,7 +74,7 @@ clist *clist_copy(const clist *src)
             return NULL;
         }
         dst->current = dst->current->next;
-        node = node->next;
+        node         = node->next;
     } while (node != src->current);
 
     dst->current = dst->current->next;
@@ -118,11 +119,12 @@ int clist_insert_after(clist *lst, int val)
     node->data = val;
     if (!lst->current)
     {
-        node->next = node;
+        node->next   = node;
         lst->current = node;
-    } else
+    }
+    else
     {
-        node->next = lst->current->next;
+        node->next         = lst->current->next;
         lst->current->next = node;
     }
     return 0;

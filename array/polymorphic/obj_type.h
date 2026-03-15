@@ -25,7 +25,8 @@
  * Контейнеры используют данный интерфейс
  * для управления памятью элементов.
  */
-typedef struct obj_type {
+typedef struct obj_type
+{
 
     /** Размер объекта в байтах */
     size_t size;
@@ -87,7 +88,6 @@ typedef struct obj_type {
 
 } obj_type;
 
-
 /* =========================================================
    Универсальные функции работы с объектами
    ========================================================= */
@@ -104,7 +104,6 @@ typedef struct obj_type {
  */
 void *obj_create(const obj_type *type);
 
-
 /**
  * @brief Уничтожает объект.
  *
@@ -116,7 +115,6 @@ void *obj_create(const obj_type *type);
  */
 void obj_free(void *obj, const obj_type *type);
 
-
 /**
  * @brief Создает копию объекта.
  *
@@ -126,7 +124,6 @@ void obj_free(void *obj, const obj_type *type);
  * @return Новый объект или NULL при ошибке.
  */
 void *obj_clone(const void *src, const obj_type *type);
-
 
 /**
  * @brief Присваивает значение одного объекта другому.
@@ -138,7 +135,6 @@ void *obj_clone(const void *src, const obj_type *type);
  * @return dst при успехе или NULL при ошибке.
  */
 void *obj_assign(void *dst, const void *src, const obj_type *type);
-
 
 /* =========================================================
    Стандартные типы
@@ -166,7 +162,6 @@ extern const obj_type obj_double;
  */
 extern const obj_type obj_cstring;
 
-
 /**
  * @brief Создает тип int с заданным значением по умолчанию.
  *
@@ -177,7 +172,6 @@ extern const obj_type obj_cstring;
  * @warning **Важно:** в obj_type копируется только указатель, поэтому объект def не должен быть временным.
  */
 obj_type obj_mktype_int(const int *def);
-
 
 /**
  * @brief Создает тип double с заданным значением по умолчанию.
@@ -190,7 +184,6 @@ obj_type obj_mktype_int(const int *def);
  */
 obj_type obj_mktype_double(const double *def);
 
-
 /**
  * @brief Создает тип C-строки с заданным значением по умолчанию.
  *
@@ -201,7 +194,6 @@ obj_type obj_mktype_double(const double *def);
  * @warning **Важно:** в obj_type копируется только указатель, поэтому объект def не должен быть временным.
  */
 obj_type obj_mktype_cstring(const char *def);
-
 
 /* =========================================================
    Типобезопасные функции для стандартных типов
@@ -219,14 +211,12 @@ obj_type obj_mktype_cstring(const char *def);
  */
 int *obj_int_create(int value);
 
-
 /**
  * @brief Освобождает объект типа int.
  *
  * @param[in,out] obj Объект.
  */
 void obj_int_free(int *obj);
-
 
 /**
  * @brief Создает копию объекта int.
@@ -237,7 +227,6 @@ void obj_int_free(int *obj);
  */
 int *obj_int_clone(const int *src);
 
-
 /**
  * @brief Присваивает значение src объекту dst.
  *
@@ -247,7 +236,6 @@ int *obj_int_clone(const int *src);
  * @return dst при успехе или NULL при ошибке.
  */
 int *obj_int_assign(int *dst, const int *src);
-
 
 /**
  * @brief Получает указатель на объект int
@@ -262,7 +250,6 @@ int *obj_int_assign(int *dst, const int *src);
  */
 int *obj_int_get(void *src);
 
-
 /**
  * @brief Константная версия obj_int_get().
  *
@@ -271,7 +258,6 @@ int *obj_int_get(void *src);
  * @return Указатель на const int.
  */
 const int *obj_int_get_const(const void *src);
-
 
 /* ---------- double ---------- */
 
@@ -284,14 +270,12 @@ const int *obj_int_get_const(const void *src);
  */
 double *obj_double_create(double value);
 
-
 /**
  * @brief Освобождает объект типа double.
  *
  * @param[in,out] obj Объект.
  */
 void obj_double_free(double *obj);
-
 
 /**
  * @brief Создает копию объекта double.
@@ -301,7 +285,6 @@ void obj_double_free(double *obj);
  * @return Новый объект или NULL при ошибке.
  */
 double *obj_double_clone(const double *src);
-
 
 /**
  * @brief Присваивает значение src объекту dst.
@@ -326,7 +309,6 @@ double *obj_double_assign(double *dst, const double *src);
  */
 double *obj_double_get(void *src);
 
-
 /**
  * @brief Константная версия obj_double_get().
  *
@@ -335,8 +317,6 @@ double *obj_double_get(void *src);
  * @return Указатель на const double.
  */
 const double *obj_double_get_const(const void *src);
-
-
 
 /* ---------- cstring ---------- */
 
@@ -351,14 +331,12 @@ const double *obj_double_get_const(const void *src);
  */
 char **obj_cstring_create(const char *str);
 
-
 /**
  * @brief Освобождает строковый объект.
  *
  * @param[in,out] obj Объект.
  */
 void obj_cstring_free(char **obj);
-
 
 /**
  * @brief Создает копию строкового объекта.
@@ -369,7 +347,6 @@ void obj_cstring_free(char **obj);
  */
 char **obj_cstring_clone(char *const *src);
 
-
 /**
  * @brief Присваивает строку.
  *
@@ -379,7 +356,6 @@ char **obj_cstring_clone(char *const *src);
  * @return dst при успехе или NULL при ошибке.
  */
 char **obj_cstring_assign(char **dst, char *const *src);
-
 
 /**
  * @brief Получает указатель на объект cstring
@@ -394,7 +370,6 @@ char **obj_cstring_assign(char **dst, char *const *src);
  */
 char **obj_cstring_get(void *src);
 
-
 /**
  * @brief Константная версия obj_double_get().
  *
@@ -403,6 +378,5 @@ char **obj_cstring_get(void *src);
  * @return Указатель на const double.
  */
 const char **obj_cstring_get_const(const void *src);
-
 
 #endif // _OBJ_TYPE_H

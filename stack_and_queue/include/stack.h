@@ -119,5 +119,4 @@ int *stack_top(stack *s);
  */
 const int *stack_top_const(const stack *s);
 
-
 #endif // STACK_H

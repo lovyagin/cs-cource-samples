@@ -8,13 +8,13 @@
  */
 
 #include "dlist.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Внутренняя структура узла */
 typedef struct dlist_node
 {
-    int data;
+    int                data;
     struct dlist_node *next;
     struct dlist_node *prev;
 } dlist_node;
@@ -42,11 +42,11 @@ void dlist_free(dlist *lst)
     if (lst->current)
     {
         dlist_node *start = lst->current;
-        dlist_node *node = start->next;
+        dlist_node *node  = start->next;
         while (node != start)
         {
             dlist_node *tmp = node;
-            node = node->next;
+            node            = node->next;
             free(tmp);
         }
         free(start);
@@ -61,13 +61,13 @@ dlist *dlist_copy(const dlist *src)
     dlist *dst = dlist_create();
     if (!dst) return NULL;
 
-    if (!src->current) return dst;  // пустой список
+    if (!src->current) return dst; // пустой список
 
     const dlist_node *start = src->current;
-    const dlist_node *node = start;
+    const dlist_node *node  = start;
     do
     {
-        if (dlist_insert_after(dst, node->data) < 0) 
+        if (dlist_insert_after(dst, node->data) < 0)
         {
             dlist_free(dst);
             return NULL;
@@ -83,7 +83,7 @@ dlist *dlist_copy(const dlist *src)
    Проверка состояния
    ========================================================= */
 
-int dlist_is_empty(const dlist *lst) 
+int dlist_is_empty(const dlist *lst)
 {
     return lst->current == NULL;
 }
@@ -97,7 +97,7 @@ int *dlist_current(dlist *lst)
     return lst->current ? &lst->current->data : NULL;
 }
 
-const int *dlist_current_const(const dlist *lst) 
+const int *dlist_current_const(const dlist *lst)
 {
     return lst->current ? &lst->current->data : NULL;
 }
@@ -129,13 +129,14 @@ int dlist_insert_after(dlist *lst, int val)
     if (!lst->current)
     {
         node->next = node->prev = node;
-        lst->current = node;
-    } else 
+        lst->current            = node;
+    }
+    else
     {
-        node->prev = lst->current;
-        node->next = lst->current->next;
+        node->prev               = lst->current;
+        node->next               = lst->current->next;
         lst->current->next->prev = node;
-        lst->current->next = node;
+        lst->current->next       = node;
     }
     return 0;
 }
@@ -162,7 +163,7 @@ int dlist_remove_current(dlist *lst, int *val)
 
     node->prev->next = node->next;
     node->next->prev = node->prev;
-    lst->current = node->next;
+    lst->current     = node->next;
     free(node);
     return 0;
 }

@@ -1,6 +1,6 @@
+#include "clist.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "clist.h"
 
 /**
  * @brief Выводит элементы циклического списка начиная с текущего.
@@ -32,7 +32,7 @@ void clist_print(clist *lst)
 /**
  * @brief Тест базовых операций: вставка, переход, удаление.
  */
-void test_basic_operations() 
+void test_basic_operations()
 {
     printf("=== Test: basic operations ===\n");
 
@@ -64,8 +64,7 @@ void test_copy_independence()
     printf("=== Test: copy independence ===\n");
 
     clist *lst = clist_create();
-    for (int i = 1; i <= 5; ++i)
-        clist_insert_after(lst, i);
+    for (int i = 1; i <= 5; ++i) clist_insert_after(lst, i);
 
     printf("Original list:\n");
     clist_print(lst);

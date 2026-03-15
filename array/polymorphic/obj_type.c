@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /* =========================================================
    Универсальные функции работы с объектами
    ========================================================= */
@@ -27,13 +26,11 @@ void *obj_create(const obj_type *type)
     return obj;
 }
 
-
 void obj_free(void *obj, const obj_type *type)
 {
     type->destroy(obj, type->context);
     free(obj);
 }
-
 
 void *obj_clone(const void *src, const obj_type *type)
 {
@@ -48,14 +45,12 @@ void *obj_clone(const void *src, const obj_type *type)
     return dst;
 }
 
-
 void *obj_assign(void *dst, const void *src, const obj_type *type)
 {
     type->destroy(dst, type->context);
 
     return (type->copy(dst, src, type->context) == 0) ? dst : NULL;
 }
-
 
 /* =========================================================
    Реализация типа int
@@ -68,7 +63,6 @@ void *obj_assign(void *dst, const void *src, const obj_type *type)
  */
 static const int int_default = 0;
 
-
 /**
  * @brief Инициализация объекта int.
  *
@@ -77,10 +71,9 @@ static const int int_default = 0;
  */
 static int int_init(void *dst, const void *ctx)
 {
-    *(int *)dst = ctx ? *(const int *)ctx : 0;
+    *(int *) dst = ctx ? *(const int *) ctx : 0;
     return 0;
 }
-
 
 /**
  * @brief Уничтожение объекта int.
@@ -89,51 +82,40 @@ static int int_init(void *dst, const void *ctx)
  */
 static void int_destroy(void *obj, const void *ctx)
 {
-    (void)obj;
-    (void)ctx;
+    (void) obj;
+    (void) ctx;
 }
-
 
 /**
  * @brief Копирование объекта int.
  */
 static int int_copy(void *dst, const void *src, const void *ctx)
 {
-    (void)ctx;
-    *(int *)dst = *(const int *)src;
+    (void) ctx;
+    *(int *) dst = *(const int *) src;
     return 0;
 }
-
 
 /**
  * @brief Сравнение двух объектов int.
  */
 static int int_cmp(const void *a, const void *b, const void *ctx)
 {
-    (void)ctx;
+    (void) ctx;
 
-    return *(const int *)a - *(const int *)b;
+    return *(const int *) a - *(const int *) b;
 }
 
-
 const obj_type obj_int = {
-    sizeof(int),
-    &int_default,
-    int_init,
-    int_destroy,
-    int_copy,
-    int_cmp
-};
-
+    sizeof(int), &int_default, int_init, int_destroy, int_copy, int_cmp};
 
 obj_type obj_mktype_int(const int *def)
 {
     obj_type t = obj_int;
-    t.context = def;
+    t.context  = def;
 
     return t;
 }
-
 
 /* =========================================================
    Реализация типа double
@@ -144,16 +126,14 @@ obj_type obj_mktype_int(const int *def)
  */
 static const double double_default = 0.0;
 
-
 /**
  * @brief Инициализация объекта double.
  */
 static int double_init(void *dst, const void *ctx)
 {
-    *(double *)dst = ctx ? *(const double *)ctx : 0.0;
+    *(double *) dst = ctx ? *(const double *) ctx : 0.0;
     return 0;
 }
-
 
 /**
  * @brief Уничтожение объекта double.
@@ -162,51 +142,44 @@ static int double_init(void *dst, const void *ctx)
  */
 static void double_destroy(void *obj, const void *ctx)
 {
-    (void)obj;
-    (void)ctx;
+    (void) obj;
+    (void) ctx;
 }
-
 
 /**
  * @brief Копирование объекта double.
  */
 static int double_copy(void *dst, const void *src, const void *ctx)
 {
-    (void)ctx;
-    *(double *)dst = *(const double *)src;
+    (void) ctx;
+    *(double *) dst = *(const double *) src;
     return 0;
 }
-
 
 /**
  * @brief Сравнение двух объектов double.
  */
 static int double_cmp(const void *a, const void *b, const void *ctx)
 {
-    (void)ctx;
+    (void) ctx;
 
-    return *(const double *)a - *(const double *)b;
+    return *(const double *) a - *(const double *) b;
 }
 
-
-const obj_type obj_double = {
-    sizeof(double),
-    &double_default,
-    double_init,
-    double_destroy,
-    double_copy,
-    double_cmp
-};
-
+const obj_type obj_double = {sizeof(double),
+                             &double_default,
+                             double_init,
+                             double_destroy,
+                             double_copy,
+                             double_cmp};
 
 obj_type obj_mktype_double(const double *def)
 {
     obj_type t = obj_double;
-    t.context = def;
+    t.context  = def;
 
     return t;
 }
-
 
 /* =========================================================
    Реализация типа cstring
@@ -217,8 +190,7 @@ obj_type obj_mktype_double(const double *def)
  *
  * Используется пустая строка.
  */
-static const char * const cstring_default = "";
-
+static const char *const cstring_default = "";
 
 /**
  * @brief Инициализация строкового объекта.
@@ -227,14 +199,13 @@ static const char * const cstring_default = "";
  */
 static int cstring_init(void *dst, const void *ctx)
 {
-    const char *def = ctx ? (const char *)ctx : "";
-    char *copy = strdup(def);
+    const char *def  = ctx ? (const char *) ctx : "";
+    char       *copy = strdup(def);
     if (!copy) return -1;
 
-    *(char **)dst = copy;
+    *(char **) dst = copy;
     return 0;
 }
-
 
 /**
  * @brief Уничтожение строкового объекта.
@@ -243,12 +214,11 @@ static int cstring_init(void *dst, const void *ctx)
  */
 static void cstring_destroy(void *obj, const void *ctx)
 {
-    (void)ctx;
+    (void) ctx;
 
     char **str = obj;
     free(*str);
 }
-
 
 /**
  * @brief Копирование строкового объекта.
@@ -257,45 +227,39 @@ static void cstring_destroy(void *obj, const void *ctx)
  */
 static int cstring_copy(void *dst, const void *src, const void *ctx)
 {
-    (void)ctx;
+    (void) ctx;
 
-    const char *s = *(char *const *)src;
-    char *copy = strdup(s);
+    const char *s    = *(char *const *) src;
+    char       *copy = strdup(s);
     if (!copy) return -1;
 
-    *(char **)dst = copy;
+    *(char **) dst = copy;
     return 0;
 }
-
 
 /**
  * @brief Лексикографическое сравнение строк.
  */
 static int cstring_cmp(const void *a, const void *b, const void *ctx)
 {
-    (void)ctx;
+    (void) ctx;
 
-    return strcmp(*(char *const *)a, *(char *const *)b);
+    return strcmp(*(char *const *) a, *(char *const *) b);
 }
 
-
-const obj_type obj_cstring = {
-    sizeof(char *),
-    cstring_default,
-    cstring_init,
-    cstring_destroy,
-    cstring_copy,
-    cstring_cmp
-};
-
+const obj_type obj_cstring = {sizeof(char *),
+                              cstring_default,
+                              cstring_init,
+                              cstring_destroy,
+                              cstring_copy,
+                              cstring_cmp};
 
 obj_type obj_mktype_cstring(const char *def)
 {
     obj_type t = obj_cstring;
-    t.context = def ? def : "";
+    t.context  = def ? def : "";
     return t;
 }
-
 
 /* =========================================================
    Типобезопасные функции
@@ -327,14 +291,13 @@ int *obj_int_assign(int *dst, const int *src)
 
 int *obj_int_get(void *src)
 {
-    return (int *)src;
+    return (int *) src;
 }
 
 const int *obj_int_get_const(const void *src)
 {
-    return (const int *)src;
+    return (const int *) src;
 }
-
 
 /* ---------- double ---------- */
 
@@ -362,27 +325,24 @@ double *obj_double_assign(double *dst, const double *src)
 
 double *obj_double_get(void *src)
 {
-    return (double *)src;
+    return (double *) src;
 }
 
 const double *obj_double_get_const(const void *src)
 {
-    return (const double *)src;
+    return (const double *) src;
 }
-
 
 /* ---------- cstring ---------- */
 
 char **obj_cstring_create(const char *str)
 {
-    return obj_create(&(obj_type){
-        obj_cstring.size,
-        str,
-        obj_cstring.init,
-        obj_cstring.destroy,
-        obj_cstring.copy,
-        obj_cstring.cmp
-    });
+    return obj_create(&(obj_type) {obj_cstring.size,
+                                   str,
+                                   obj_cstring.init,
+                                   obj_cstring.destroy,
+                                   obj_cstring.copy,
+                                   obj_cstring.cmp});
 }
 void obj_cstring_free(char **obj)
 {
@@ -401,10 +361,10 @@ char **obj_cstring_assign(char **dst, char *const *src)
 
 char **obj_cstring_get(void *src)
 {
-    return (char **)src;
+    return (char **) src;
 }
 
 const char **obj_cstring_get_const(const void *src)
 {
-    return (const char **)src;
+    return (const char **) src;
 }

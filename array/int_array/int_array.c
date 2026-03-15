@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /* =========================================================
    Внутренняя структура массива
    ========================================================= */
@@ -29,7 +28,6 @@ struct int_array
     int *data;
 };
 
-
 /* =========================================================
    Политики по умолчанию
    ========================================================= */
@@ -38,7 +36,6 @@ size_t int_array_policy_default_grow(size_t required_size)
 {
     return required_size ? required_size * 2 : 1;
 }
-
 
 size_t int_array_policy_default_shrink(size_t size)
 {
@@ -63,12 +60,11 @@ static int int_array_realloc(int_array *arr, size_t new_capacity)
 
     if (!new_data) return 0;
 
-    arr->data = new_data;
+    arr->data     = new_data;
     arr->capacity = new_capacity;
 
     return 1;
 }
-
 
 /* =========================================================
    Управление вместимостью
@@ -85,7 +81,6 @@ int_array *int_array_adjust_capacity(int_array *arr)
     return arr;
 }
 
-
 int_array *int_array_set_capacity(int_array *arr, size_t new_capacity)
 {
     if (new_capacity < arr->size) return NULL;
@@ -97,8 +92,6 @@ int_array *int_array_set_capacity(int_array *arr, size_t new_capacity)
     return arr;
 }
 
-
-
 /* =========================================================
    Создание и уничтожение
    ========================================================= */
@@ -109,11 +102,11 @@ int_array *int_array_create(void)
 
     if (!arr) return NULL;
 
-    arr->size = 0;
+    arr->size     = 0;
     arr->capacity = 0;
-    arr->data = NULL;
+    arr->data     = NULL;
 
-    arr->grow_policy = int_array_policy_default_grow;
+    arr->grow_policy   = int_array_policy_default_grow;
     arr->shrink_policy = int_array_policy_default_shrink;
 
     if (!int_array_adjust_capacity(arr))
@@ -125,7 +118,6 @@ int_array *int_array_create(void)
     return arr;
 }
 
-
 void int_array_free(int_array *arr)
 {
     if (!arr) return;
@@ -133,7 +125,6 @@ void int_array_free(int_array *arr)
     free(arr->data);
     free(arr);
 }
-
 
 /* =========================================================
    Копирование
@@ -145,7 +136,7 @@ int_array *int_array_create_copy(const int_array *src)
 
     if (!dst) return NULL;
 
-    dst->grow_policy = src->grow_policy;
+    dst->grow_policy   = src->grow_policy;
     dst->shrink_policy = src->shrink_policy;
 
     dst->size = src->size;
@@ -161,12 +152,11 @@ int_array *int_array_create_copy(const int_array *src)
     return dst;
 }
 
-
 int_array *int_array_assign(int_array *dst, const int_array *src)
 {
     if (dst == src) return dst;
 
-    dst->grow_policy = src->grow_policy;
+    dst->grow_policy   = src->grow_policy;
     dst->shrink_policy = src->shrink_policy;
 
     dst->size = src->size;
@@ -178,7 +168,6 @@ int_array *int_array_assign(int_array *dst, const int_array *src)
     return dst;
 }
 
-
 /* =========================================================
    Размер
    ========================================================= */
@@ -188,12 +177,10 @@ size_t int_array_get_size(const int_array *arr)
     return arr->size;
 }
 
-
 size_t int_array_get_capacity(const int_array *arr)
 {
     return arr->capacity;
 }
-
 
 /* =========================================================
    Изменение размера
@@ -205,9 +192,9 @@ int_array *int_array_resize(int_array *arr, size_t new_size)
 
     arr->size = new_size;
 
-    if (new_size > arr->capacity ||
-        (new_size < old_size && arr->capacity > arr->shrink_policy(new_size))
-       )
+    if (new_size > arr->capacity
+        || (new_size < old_size
+            && arr->capacity > arr->shrink_policy(new_size)))
     {
         if (!int_array_adjust_capacity(arr))
         {
@@ -219,12 +206,12 @@ int_array *int_array_resize(int_array *arr, size_t new_size)
     return arr;
 }
 
-
 /* =========================================================
    Политики
    ========================================================= */
 
-int_array *int_array_set_grow_policy(int_array *arr, int_array_policy policy)
+int_array *int_array_set_grow_policy(int_array       *arr,
+                                     int_array_policy policy)
 {
     int_array_policy old = arr->grow_policy;
 
@@ -239,7 +226,8 @@ int_array *int_array_set_grow_policy(int_array *arr, int_array_policy policy)
     return arr;
 }
 
-int_array *int_array_set_shrink_policy(int_array *arr, int_array_policy policy)
+int_array *int_array_set_shrink_policy(int_array       *arr,
+                                       int_array_policy policy)
 {
     int_array_policy old = arr->shrink_policy;
 
@@ -263,24 +251,20 @@ int *int_array_at(int_array *arr, size_t index)
     return index < arr->size ? arr->data + index : NULL;
 }
 
-
 const int *int_array_at_const(const int_array *arr, size_t index)
 {
     return index < arr->size ? arr->data + index : NULL;
 }
-
 
 int *int_array_get(int_array *arr, size_t index)
 {
     return arr->data + index;
 }
 
-
 const int *int_array_get_const(const int_array *arr, size_t index)
 {
     return arr->data + index;
 }
-
 
 int_array *int_array_set(int_array *arr, size_t index, int value)
 {

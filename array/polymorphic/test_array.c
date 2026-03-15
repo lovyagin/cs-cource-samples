@@ -9,14 +9,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#define ASSERT(cond, msg) \
-do { \
-    if (!(cond)) { \
-        fprintf(stderr, "ASSERT FAILED: %s\n", msg); \
-        return 1; \
-    } \
-} while (0)
-
+#define ASSERT(cond, msg)                                                 \
+    do                                                                    \
+    {                                                                     \
+        if (!(cond))                                                      \
+        {                                                                 \
+            fprintf(stderr, "ASSERT FAILED: %s\n", msg);                  \
+            return 1;                                                     \
+        }                                                                 \
+    } while (0)
 
 /* =========================================================
    Тест массива int
@@ -29,8 +30,7 @@ int test_array_int()
 
     ASSERT(array_resize(a, 10), "resize int");
 
-    for (int i = 0; i < 10; i++)
-        ASSERT(array_set(a, i, &i), "set int");
+    for (int i = 0; i < 10; i++) ASSERT(array_set(a, i, &i), "set int");
 
     for (int i = 0; i < 10; i++)
     {
@@ -52,7 +52,6 @@ int test_array_int()
 
     return 0;
 }
-
 
 /* =========================================================
    Тест массива double
@@ -82,7 +81,6 @@ int test_array_double()
     return 0;
 }
 
-
 /* =========================================================
    Тест массива строк
    ========================================================= */
@@ -102,21 +100,20 @@ int test_array_string()
     ASSERT(array_set(a, 1, &s2), "set s2");
     ASSERT(array_set(a, 2, &s3), "set s3");
 
-    ASSERT(strcmp(*(char**)array_at(a,0),"alpha")==0,"get s1");
-    ASSERT(strcmp(*(char**)array_at(a,1),"beta")==0,"get s2");
-    ASSERT(strcmp(*(char**)array_at(a,2),"gamma")==0,"get s3");
+    ASSERT(strcmp(*(char **) array_at(a, 0), "alpha") == 0, "get s1");
+    ASSERT(strcmp(*(char **) array_at(a, 1), "beta") == 0, "get s2");
+    ASSERT(strcmp(*(char **) array_at(a, 2), "gamma") == 0, "get s3");
 
     array *b = array_create_copy(a);
-    ASSERT(b,"copy string array");
+    ASSERT(b, "copy string array");
 
-    ASSERT(strcmp(*(char**)array_at(b,1),"beta")==0,"copy check");
+    ASSERT(strcmp(*(char **) array_at(b, 1), "beta") == 0, "copy check");
 
     array_free(a);
     array_free(b);
 
     return 0;
 }
-
 
 /* =========================================================
    Тест двумерного массива int
@@ -152,7 +149,7 @@ int test_array_2d_int()
         for (int c = 0; c < 4; c++)
         {
             int *v = array_at(row, c);
-            ASSERT(*v == r*10 + c, "matrix check");
+            ASSERT(*v == r * 10 + c, "matrix check");
         }
     }
 
@@ -160,7 +157,6 @@ int test_array_2d_int()
 
     return 0;
 }
-
 
 /* =========================================================
    Тест двумерного массива строк
@@ -185,23 +181,24 @@ int test_array_2d_string()
         const char *s1 = "hello";
         const char *s2 = "world";
 
-        ASSERT(array_set(row,0,&s1),"set str1");
-        ASSERT(array_set(row,1,&s2),"set str2");
+        ASSERT(array_set(row, 0, &s1), "set str1");
+        ASSERT(array_set(row, 1, &s2), "set str2");
     }
 
     for (int r = 0; r < 2; r++)
     {
         array *row = array_at(matrix, r);
 
-        ASSERT(strcmp(*(char**)array_at(row,0),"hello")==0,"check1");
-        ASSERT(strcmp(*(char**)array_at(row,1),"world")==0,"check2");
+        ASSERT(strcmp(*(char **) array_at(row, 0), "hello") == 0,
+               "check1");
+        ASSERT(strcmp(*(char **) array_at(row, 1), "world") == 0,
+               "check2");
     }
 
     array_free(matrix);
 
     return 0;
 }
-
 
 /* =========================================================
    MAIN

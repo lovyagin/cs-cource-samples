@@ -1,0 +1,45 @@
+BasedOnStyle: LLVM
+Language: C
+
+# Отступы
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+
+# Ограничение длины строки
+ColumnLimit: 75
+
+# Фигурные скобки
+BreakBeforeBraces: Allman
+
+# Указатели
+PointerAlignment: Right
+
+# Параметры функций
+BinPackArguments: false
+BinPackParameters: false
+
+# Оенострочные конструкцие
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty
+
+# Выравнивание
+AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
+
+# Перенос операций
+BreakBeforeBinaryOperators: All
+
+# Пробелы
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: true
+
+# Комментарии
+ReflowComments: false
+
+SortIncludes: true
+

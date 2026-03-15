@@ -13,8 +13,8 @@
  */
 struct queue
 {
-    node *head;  /**< Первый элемент очереди */
-    node *tail;  /**< Последний элемент очереди */
+    node *head; /**< Первый элемент очереди    */
+    node *tail; /**< Последний элемент очереди */
 };
 
 /* =========================================================
@@ -39,7 +39,7 @@ queue *queue_copy(const queue *src)
     queue *q = queue_create();
     if (!q) return NULL;
 
-    for (node *n = src->head; n != NULL; n = n->next) 
+    for (node *n = src->head; n != NULL; n = n->next)
     {
         if (queue_push(q, n->data) != 0)
         {
@@ -78,7 +78,7 @@ int queue_is_empty(const queue *q)
 
 int queue_is_full(const queue *q)
 {
-    (void)q;
+    (void) q;
     return 0; /* динамическая очередь не имеет фиксированного ограничения */
 }
 
@@ -114,8 +114,7 @@ int queue_pop(queue *q, int *val)
 
     q->head = n->next;
 
-    if (!q->head)
-        q->tail = NULL;
+    if (!q->head) q->tail = NULL;
 
     free(n);
 

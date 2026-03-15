@@ -24,7 +24,6 @@
  */
 typedef struct array array;
 
-
 /**
  * @brief Тип функции политики изменения вместимости.
  *
@@ -32,7 +31,6 @@ typedef struct array array;
  * @return Новая или пороговая вместимость.
  */
 typedef size_t (*array_policy)(size_t size);
-
 
 /**
  * @brief Создает новый пустой массив.
@@ -43,14 +41,12 @@ typedef size_t (*array_policy)(size_t size);
  */
 array *array_create(const obj_type *el_type);
 
-
 /**
  * @brief Освобождает массив и уничтожает все элементы.
  *
  * @param[in,out] arr Массив.
  */
 void array_free(array *arr);
-
 
 /**
  * @brief Создает полную копию массива.
@@ -60,7 +56,6 @@ void array_free(array *arr);
  * @warning Созданный массив должен быть освобожден с помощью array_free
  */
 array *array_create_copy(const array *src);
-
 
 /**
  * @brief Присваивает массив src массиву dst.
@@ -73,7 +68,6 @@ array *array_create_copy(const array *src);
  */
 array *array_assign(array *dst, const array *src);
 
-
 /**
  * @brief Возвращает текущий размер массива.
  *
@@ -82,7 +76,6 @@ array *array_assign(array *dst, const array *src);
  */
 size_t array_get_size(const array *arr);
 
-
 /**
  * @brief Возвращает текущую вместимость массива.
  *
@@ -90,7 +83,6 @@ size_t array_get_size(const array *arr);
  * @return вместимость массива.
  */
 size_t array_get_capacity(const array *arr);
-
 
 /**
  * @brief Изменяет размер массива.
@@ -104,7 +96,6 @@ size_t array_get_capacity(const array *arr);
  */
 array *array_resize(array *arr, size_t new_size);
 
-
 /**
  * @brief Устанавливает вместимость массива.
  *
@@ -115,7 +106,6 @@ array *array_resize(array *arr, size_t new_size);
  * @return arr при успехе или NULL при ошибке.
  */
 array *array_set_capacity(array *arr, size_t new_capacity);
-
 
 /**
  * @brief Обеспечивает минимальную вместимость массива.
@@ -128,7 +118,6 @@ array *array_set_capacity(array *arr, size_t new_capacity);
  */
 array *array_set_min_capacity(array *arr, size_t min_capacity);
 
-
 /**
  * @brief Устанавливает политику увеличения емкости.
  *
@@ -140,7 +129,6 @@ array *array_set_min_capacity(array *arr, size_t min_capacity);
  * @return arr.
  */
 array *array_set_grow_policy(array *arr, array_policy policy);
-
 
 /**
  * @brief Устанавливает политику уменьшения емкости.
@@ -156,7 +144,6 @@ array *array_set_grow_policy(array *arr, array_policy policy);
  */
 array *array_set_shrink_policy(array *arr, array_policy policy);
 
-
 /**
  * @brief Возвращает указатель на элемент с проверкой границ.
  *
@@ -166,12 +153,10 @@ array *array_set_shrink_policy(array *arr, array_policy policy);
  */
 void *array_at(array *arr, size_t index);
 
-
 /**
  * @brief Константная версия array_at().
  */
 const void *array_at_const(const array *arr, size_t index);
-
 
 /**
  * @brief Возвращает указатель на элемент без проверки границ.
@@ -180,12 +165,10 @@ const void *array_at_const(const array *arr, size_t index);
  */
 void *array_get(array *arr, size_t index);
 
-
 /**
  * @brief Константная версия array_get().
  */
 const void *array_get_const(const array *arr, size_t index);
-
 
 /**
  * @brief Присваивает значение элементу массива.
@@ -197,7 +180,6 @@ const void *array_get_const(const array *arr, size_t index);
  */
 array *array_set(array *arr, size_t index, const void *value);
 
-
 /**
  * @brief Политика роста по умолчанию.
  *
@@ -207,7 +189,6 @@ array *array_set(array *arr, size_t index, const void *value);
  */
 size_t array_policy_default_grow(size_t required_size);
 
-
 /**
  * @brief Политика уменьшения вместимости по умолчанию.
  *
@@ -216,7 +197,6 @@ size_t array_policy_default_grow(size_t required_size);
  * capacity > 4 * current_size
  */
 size_t array_policy_default_shrink(size_t current_size);
-
 
 /**
  * @brief Создает описание типа для объекта array.

@@ -10,15 +10,17 @@
 #include <string.h>
 
 #ifndef STACK_MAX_SIZE
-#define STACK_MAX_SIZE 16  /**< Максимальное количество элементов стека */
+#define STACK_MAX_SIZE 16 /**< Максимальное количество элементов стека */
 #endif
 
 /**
  * @brief Внутренняя структура стека.
  */
-struct stack {
-    int data[STACK_MAX_SIZE];  /**< Массив для хранения элементов */
-    size_t top;                /**< Индекс следующего свободного места (0 если стек пуст) */
+struct stack
+{
+    int data[STACK_MAX_SIZE]; /**< Массив для хранения элементов */
+    size_t
+        top; /**< Индекс следующего свободного места (0 если стек пуст) */
 };
 
 /* =========================================================
@@ -81,7 +83,7 @@ int stack_pop(stack *s, int *val)
 
     --s->top;
     if (val) *val = s->data[s->top];
-    
+
     return 0;
 }
 

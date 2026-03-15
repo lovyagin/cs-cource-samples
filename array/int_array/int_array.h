@@ -34,7 +34,6 @@ typedef struct int_array int_array;
  */
 typedef size_t (*int_array_policy)(size_t size);
 
-
 /* =========================================================
    Создание и уничтожение
    ========================================================= */
@@ -48,14 +47,12 @@ typedef size_t (*int_array_policy)(size_t size);
  */
 int_array *int_array_create(void);
 
-
 /**
  * @brief Освобождает массив.
  *
  * @param[in,out] arr Массив.
  */
 void int_array_free(int_array *arr);
-
 
 /**
  * @brief Создает копию массива.
@@ -66,7 +63,6 @@ void int_array_free(int_array *arr);
  * @warning Созданный массив должен быть освобожден с помощью int_array_free
  */
 int_array *int_array_create_copy(const int_array *src);
-
 
 /**
  * @brief Присваивает массив src массиву dst.
@@ -82,7 +78,6 @@ int_array *int_array_create_copy(const int_array *src);
  */
 int_array *int_array_assign(int_array *dst, const int_array *src);
 
-
 /* =========================================================
    Размер и вместимость
    ========================================================= */
@@ -96,7 +91,6 @@ int_array *int_array_assign(int_array *dst, const int_array *src);
  */
 size_t int_array_get_size(const int_array *arr);
 
-
 /**
  * @brief Возвращает текущую вместимость массива.
  *
@@ -105,7 +99,6 @@ size_t int_array_get_size(const int_array *arr);
  * @return Текущая вместимость массива
  */
 size_t int_array_get_capacity(const int_array *arr);
-
 
 /**
  * @brief Изменяет размер массива.
@@ -120,7 +113,6 @@ size_t int_array_get_capacity(const int_array *arr);
  * @warning При увеличении новые элементы не инициализируются (их значение неопределено).
  */
 int_array *int_array_resize(int_array *arr, size_t new_size);
-
 
 /**
  * @brief Явно устанавливает вместимость массива.
@@ -179,8 +171,8 @@ int_array *int_array_adjust_capacity(int_array *arr);
  *
  * @warning Функция policy всегда должна возвращать ненулевое значение вместимости, большее либо равное размеру
  */
-int_array *int_array_set_grow_policy(int_array *arr, int_array_policy policy);
-
+int_array *int_array_set_grow_policy(int_array       *arr,
+                                     int_array_policy policy);
 
 /**
  * @brief Устанавливает политику уменьшения вместимости.
@@ -195,7 +187,8 @@ int_array *int_array_set_grow_policy(int_array *arr, int_array_policy policy);
  *
  * @return arr (всегда успех).
  */
-int_array *int_array_set_shrink_policy(int_array *arr, int_array_policy policy);
+int_array *int_array_set_shrink_policy(int_array       *arr,
+                                       int_array_policy policy);
 
 /**
  * @brief Политика роста по умолчанию.
@@ -204,14 +197,12 @@ int_array *int_array_set_shrink_policy(int_array *arr, int_array_policy policy);
  */
 size_t int_array_policy_default_grow(size_t required_size);
 
-
 /**
  * @brief Политика уменьшения по умолчанию.
  *
  * Возвращает порог, равный 4 * size
  */
 size_t int_array_policy_default_shrink(size_t size);
-
 
 /* =========================================================
    Доступ к элементам
@@ -227,7 +218,6 @@ size_t int_array_policy_default_shrink(size_t size);
  */
 int *int_array_at(int_array *arr, size_t index);
 
-
 /**
  * @brief Константная версия int_array_at().
  *
@@ -237,7 +227,6 @@ int *int_array_at(int_array *arr, size_t index);
  * @return Указатель на элемент или NULL при выходе за границы массива.
  */
 const int *int_array_at_const(const int_array *arr, size_t index);
-
 
 /**
  * @brief Возвращает указатель на элемент без проверки границ.
@@ -249,7 +238,6 @@ const int *int_array_at_const(const int_array *arr, size_t index);
  */
 int *int_array_get(int_array *arr, size_t index);
 
-
 /**
  * @brief Константная версия int_array_get().
  *
@@ -259,7 +247,6 @@ int *int_array_get(int_array *arr, size_t index);
  * @warning Поведение не определено при выходе за границы массива.
  */
 const int *int_array_get_const(const int_array *arr, size_t index);
-
 
 /**
  * @brief Устанавливает значение элемента.

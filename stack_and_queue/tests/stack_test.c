@@ -3,8 +3,8 @@
  * @brief Общие тесты стека для любой реализации stack.
  */
 
-#include <CUnit/Basic.h>
 #include "stack.h"
+#include <CUnit/Basic.h>
 
 /* =========================================================
    Вспомогательные функции
@@ -25,11 +25,13 @@ static int fill_stack(stack *s, int n)
 {
     int inserted = 0;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
 
         int r = stack_push(s, i);
 
-        if (r != 0) {
+        if (r != 0)
+        {
             CU_ASSERT(stack_is_full(s));
             break;
         }
@@ -45,7 +47,8 @@ static int fill_stack(stack *s, int n)
  */
 static void check_lifo(stack *s, int n)
 {
-    for (int i = n - 1; i >= 0; i--) {
+    for (int i = n - 1; i >= 0; i--)
+    {
 
         int val = -1;
 

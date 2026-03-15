@@ -10,16 +10,18 @@
 #include <string.h>
 
 #ifndef QUEUE_MAX_SIZE
-#define QUEUE_MAX_SIZE 16  /**< Максимальное количество элементов очереди */
+#define QUEUE_MAX_SIZE 16 /**< Максимальное количество элементов очереди */
 #endif
 
 /**
  * @brief Внутренняя структура очереди.
  */
-struct queue {
-    int data[QUEUE_MAX_SIZE]; /**< Массив для хранения элементов */
-    size_t head;              /**< Индекс начала очереди */
-    size_t tail;              /**< Индекс конца очереди (следующий после последнего элемента) */
+struct queue
+{
+    int    data[QUEUE_MAX_SIZE]; /**< Массив для хранения элементов */
+    size_t head;                 /**< Индекс начала очереди */
+    size_t
+        tail; /**< Индекс конца очереди (следующий после последнего элемента) */
 };
 
 /* =========================================================
@@ -32,7 +34,7 @@ struct queue {
 
 queue *queue_create(void)
 {
-    queue *q = (queue *)malloc(sizeof(queue));
+    queue *q = (queue *) malloc(sizeof(queue));
     if (!q) return NULL;
     q->head = 0;
     q->tail = 0;
@@ -78,7 +80,7 @@ int queue_push(queue *q, int val)
     if (queue_is_full(q)) return -1;
 
     q->data[q->tail] = val;
-    q->tail = (q->tail + 1) % QUEUE_MAX_SIZE;
+    q->tail          = (q->tail + 1) % QUEUE_MAX_SIZE;
     return 0;
 }
 

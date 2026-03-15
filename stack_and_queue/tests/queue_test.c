@@ -3,8 +3,8 @@
  * @brief Общие тесты очереди для любой реализации queue.
  */
 
-#include <CUnit/Basic.h>
 #include "queue.h"
+#include <CUnit/Basic.h>
 
 /* =========================================================
    Вспомогательные функции
@@ -25,11 +25,13 @@ static int fill_queue(queue *q, int n)
 {
     int inserted = 0;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
 
         int r = queue_push(q, i);
 
-        if (r != 0) {
+        if (r != 0)
+        {
             /* очередь не приняла элемент → должна быть полной */
             CU_ASSERT(queue_is_full(q));
             break;
@@ -46,7 +48,8 @@ static int fill_queue(queue *q, int n)
  */
 static void check_fifo(queue *q, int n)
 {
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         int val = -1;
         CU_ASSERT(queue_pop(q, &val) == 0);
         CU_ASSERT(val == i);

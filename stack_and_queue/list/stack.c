@@ -38,7 +38,7 @@ stack *stack_copy(const stack *src)
 
     node **dst_link = &s->top;
 
-    for (node *n = src->top; n; n = n->next) 
+    for (node *n = src->top; n; n = n->next)
     {
         node *new_node = malloc(sizeof(node));
         if (!new_node)
@@ -51,7 +51,7 @@ stack *stack_copy(const stack *src)
         new_node->next = NULL;
 
         *dst_link = new_node;
-        dst_link = &new_node->next;
+        dst_link  = &new_node->next;
     }
 
     return s;
@@ -63,7 +63,7 @@ void stack_free(stack *s)
 
     node *n = s->top;
 
-    while (n) 
+    while (n)
     {
         node *next = n->next;
         free(n);
@@ -84,7 +84,7 @@ int stack_is_empty(const stack *s)
 
 int stack_is_full(const stack *s)
 {
-    (void)s;
+    (void) s;
     return 0; /* динамический стек не имеет фиксированного ограничения */
 }
 
@@ -99,7 +99,7 @@ int stack_push(stack *s, int val)
 
     n->data = val;
     n->next = s->top;
-    s->top = n;
+    s->top  = n;
 
     return 0;
 }
