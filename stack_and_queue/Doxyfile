@@ -1,0 +1,40 @@
+# Проект
+PROJECT_NAME           = "stack_and_queue"
+PROJECT_BRIEF          = "Интерфейс простых стека и очереди"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_DIRECTORY       = docs
+
+# Входные файлы
+INPUT                  = include/stack.h include/queue.h
+RECURSIVE              = NO
+
+# Расширения файлов
+FILE_PATTERNS          = *.h *.c
+
+# Тип документации
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+
+# Формат вывода
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_RTF           = NO
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
+
+# Диаграммы и графы
+HAVE_DOT               = YES
+CLASS_DIAGRAMS         = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+
+# Другие полезные настройки
+QUIET                  = NO
+WARNINGS               = YES
+INPUT_ENCODING         = UTF-8
+TAB_SIZE               = 4
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
