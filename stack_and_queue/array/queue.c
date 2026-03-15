@@ -34,7 +34,7 @@ struct queue
 
 queue *queue_create(void)
 {
-    queue *q = (queue *) malloc(sizeof(queue));
+    queue *q = malloc(sizeof(queue));
     if (!q) return NULL;
     q->head = 0;
     q->tail = 0;
