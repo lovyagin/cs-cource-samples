@@ -1,4 +1,4 @@
-/**4
+/**
  * @file int_array_test.c
  * @brief Unit-тесты для int_array с демонстрацией работы политик.
  *
@@ -70,8 +70,14 @@ void test_create_copy_resize(void)
     int_array *copy = int_array_create_copy(arr);
     CU_ASSERT_PTR_NOT_NULL(copy);
     CU_ASSERT(int_array_get_size(copy) == int_array_get_size(arr));
+    printf("\n");
+    print_array(arr, "Orig");
+    print_array(copy, "Copy");
+    printf("\n");
+
+    
     for (size_t i = 0; i < int_array_get_size(copy); ++i)
-        CU_ASSERT(int_array_get(copy, i) == int_array_get(arr, i));
+        CU_ASSERT(*int_array_get(copy, i) == *int_array_get(arr, i));
 
     int_array_free(arr);
     int_array_free(copy);
@@ -95,7 +101,7 @@ void test_assign(void)
     CU_ASSERT_PTR_NOT_NULL(b);
     CU_ASSERT(int_array_get_size(b) == int_array_get_size(a));
     for (size_t i = 0; i < int_array_get_size(a); ++i)
-        CU_ASSERT(int_array_get(a, i) == int_array_get(b, i));
+        CU_ASSERT(*int_array_get(a, i) == *int_array_get(b, i));
 
     int_array_free(a);
     int_array_free(b);
