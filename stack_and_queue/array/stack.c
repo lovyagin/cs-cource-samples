@@ -18,9 +18,8 @@
  */
 struct stack
 {
-    int data[STACK_MAX_SIZE]; /**< Массив для хранения элементов */
-    size_t
-        top; /**< Индекс следующего свободного места (0 если стек пуст) */
+    int    data[STACK_MAX_SIZE]; /**< Массив для хранения элементов */
+    size_t top;                  /**< Индекс следующего свободного места (0 если стек пуст) */
 };
 
 /* =========================================================
@@ -37,7 +36,6 @@ stack *stack_create(void)
 
 stack *stack_copy(const stack *src)
 {
-    if (!src) return NULL;
     stack *s = stack_create();
     if (!s) return NULL;
     memcpy(s->data, src->data, sizeof(int) * src->top);
@@ -70,7 +68,7 @@ int stack_is_full(const stack *s)
 
 int stack_push(stack *s, int val)
 {
-    if (s->top >= STACK_MAX_SIZE) return -1;
+    if (stack_is_full(s)) return -1;
 
     s->data[s->top++] = val;
 
@@ -79,7 +77,7 @@ int stack_push(stack *s, int val)
 
 int stack_pop(stack *s, int *val)
 {
-    if (s->top == 0) return -1;
+    if (stack_is_empty(s)) return -1;
 
     --s->top;
     if (val) *val = s->data[s->top];
@@ -89,14 +87,10 @@ int stack_pop(stack *s, int *val)
 
 int *stack_top(stack *s)
 {
-    if (s->top == 0) return NULL;
-
-    return s->data + s->top - 1;
+    return stack_is_empty(s) ? NULL : s->data + s->top - 1;
 }
 
 const int *stack_top_const(const stack *s)
 {
-    if (s->top == 0) return NULL;
-
-    return s->data + s->top - 1;
+    return stack_is_empty(s) ? NULL : s->data + s->top - 1;
 }

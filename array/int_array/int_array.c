@@ -19,13 +19,13 @@
  */
 struct int_array
 {
-    size_t size;
-    size_t capacity;
+    size_t size;                    /**< Размер массива */
+    size_t capacity;                /**< Вместимость    */
 
-    int_array_policy grow_policy;
-    int_array_policy shrink_policy;
+    int_array_policy grow_policy;   /**< Политика роста вместимости    */
+    int_array_policy shrink_policy; /**< Порого уменьшения вместимости */
 
-    int *data;
+    int *data;                      /**< Блок данных                   */
 };
 
 /* =========================================================
@@ -46,7 +46,7 @@ size_t int_array_policy_default_shrink(size_t size)
    Внутренние функции модуля (скрыты от пользователя)
    ========================================================= */
 
-/** 
+/**
  * @brief Изменяет размер выделенного блока данных массива
  *
  * Явно изменяет вместимость массива.
@@ -162,6 +162,7 @@ int_array *int_array_assign(int_array *dst, const int_array *src)
     dst->size = src->size;
 
     if (!int_array_adjust_capacity(dst)) return NULL;
+    // TODO: исправить, чтобы массив dst сохранял состояние
 
     memcpy(dst->data, src->data, src->size * sizeof(int));
 
@@ -306,7 +307,7 @@ int_array *int_array_remove_swap(int_array *arr, size_t index)
 
     if (!int_array_resize(arr, old_size - 1)) return NULL;
 
-    if (index != old_size - 1) arr->data[index] = last_value;
+    if (index != old_size - 1) *int_array_get(arr, index) = last_value;
 
     return arr;
 }
