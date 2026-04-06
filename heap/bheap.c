@@ -3,7 +3,7 @@
 
 typedef int key_t;
 
-typedef struct bheap 
+typedef struct bheap
 {
     size_t size, cap;
     key_t *data;
@@ -20,10 +20,10 @@ bheap *bheap_init(size_t cap)
 {
     bheap *h = malloc (sizeof (*h));
     if (!h) return NULL;
-    
+
     h->data = malloc (sizeof(key_t) * cap);
     if (!h->data) {free(h); return NULL; };
-    
+
     h->size = 0;
     h->cap = cap;
     return h;
@@ -38,7 +38,7 @@ void bheap_free(bheap *h)
 /* Минимум */
 key_t *bheap_min(bheap *h)
 {
-    return h->size ? &h->data[0] : NULL;
+    return h->size ? h->data : NULL;
 }
 
 /* Вставка (heapify-up) */
@@ -49,7 +49,8 @@ int bheap_insert(bheap *h, key_t k)
     size_t i = h->size++;
 
     /* Поднимаем k вверх */
-    while (i > 0) {
+    while (i > 0)
+    {
         size_t p = parent(i);
 
         /* если родитель меньше - найдено место для вставки */
@@ -76,7 +77,8 @@ int bheap_pop(bheap *h)
 
     size_t i = 0;
 
-    while (1) {
+    while (1)
+    {
         size_t l = left(i);
         size_t r = right(i);
 
@@ -108,21 +110,29 @@ int bheap_sort(key_t *a, size_t n)
     /* Построение кучи */
     for (size_t i = 0; i < n; ++i)
         if (bheap_insert(h, a[i]))
-            {bheap_free(h); return -1;}
+        {
+            bheap_free(h);
+            return -1;
+        }
 
     /* Извлечение массива */
-    for (size_t i = 0; i < n; ++i) 
+    for (size_t i = 0; i < n; ++i)
     {
         key_t *m = bheap_min(h);
-        if (!m) 
-            {bheap_free(h); return -1;}
-
+        if (!m)
+        {
+            bheap_free(h);
+            return -1;
+        }
 
         a[i] = *m;
         if (bheap_pop(h))
-            {bheap_free(h); return -1;}
+        {
+            bheap_free(h);
+            return -1;
+        }
     }
-    
+
     bheap_free(h); /* Нужно освобождать даже пустую кучу */
 
     return 0;
