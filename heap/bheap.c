@@ -3,119 +3,142 @@
 
 typedef int key_t;
 
-typedef struct pheap_node 
+typedef struct bheap 
 {
-    key_t key;
-    struct pheap_node *child;
-    struct pheap_node *sibling;
-} pheap_node;
+    size_t size, cap;
+    key_t *data;
+} bheap;
 
-typedef struct 
-{
-    pheap_node *root;
-} pheap;
+/* Индексы */
+static inline size_t parent(size_t i) { return (i - 1) / 2; }
+static inline size_t left  (size_t i) { return 2 * i + 1;   }
+static inline size_t right (size_t i) { return 2 * i + 2;   }
 
-/* добавить n в список детей h слева */
-static pheap_node *pheap_add_child(pheap_node *h, pheap_node *n)
+
+/* Инициализация */
+bheap *bheap_init(size_t cap)
 {
-    n->sibling = h->child;
-    h->child = n;
+    bheap *h = malloc (sizeof (*h));
+    if (!h) return NULL;
+    
+    h->data = malloc (sizeof(key_t) * cap);
+    if (!h->data) {free(h); return NULL; };
+    
+    h->size = 0;
+    h->cap = cap;
     return h;
 }
 
-/* слияние двух куч */
-static pheap_node *pheap_merge(pheap_node *a, pheap_node *b)
+void bheap_free(bheap *h)
 {
-    if (!a) return b;
-    if (!b) return a;
-
-    return a->key <= b->key ? pheap_add_child(a, b)
-                            : pheap_add_child(b, a);
+    if (h) free(h->data);
+    free (h);
 }
 
-/* "Превращение в кучу" после удаления корня */
-static pheap_node *pheap_merge_pairs(pheap_node *n)
+/* Минимум */
+key_t *bheap_min(bheap *h)
 {
-    if (!n || !n->sibling)
-        return n;
-
-    pheap_node *a = n;
-    pheap_node *b = n->sibling;
-    pheap_node *c = b->sibling;
-
-    a->sibling = b->sibling = NULL;
-
-    return pheap_merge( pheap_merge(a, b), pheap_merge_pairs(c) );
+    return h->size ? &h->data[0] : NULL;
 }
 
-/* init */
-void pheap_init(pheap *h)
+/* Вставка (heapify-up) */
+int bheap_insert(bheap *h, key_t k)
 {
-    h->root = NULL;
-}
+    if (h->size == h->cap) return -1;
 
-/* insert */
-int pheap_insert(pheap *h, key_t k)
-{
-    pheap_node *n = malloc(sizeof(*n));
-    if (!n) return -1;
+    size_t i = h->size++;
 
-    n->key = k;
-    n->child = n->sibling = NULL;
+    /* Поднимаем k вверх */
+    while (i > 0) {
+        size_t p = parent(i);
 
-    h->root = pheap_merge(h->root, n);
-    return 0;
-}
+        /* если родитель меньше - найдено место для вставки */
+        if (h->data[p] <= k)
+            break;
 
-/* min */
-key_t *pheap_min(pheap *h)
-{
-    return h->root ? &h->root->key : NULL;
-}
-
-/* pop */
-int pheap_pop(pheap *h)
-{
-    if (!h->root) return -1;
-
-    pheap_node *old = h->root;
-    h->root = pheap_merge_pairs(old->child);
-
-    free(old);
-    return 0;
-}
-
-/* destroy */
-static void pheap_destroy_rec(pheap_node *n)
-{
-    if (!n) return;
-    pheap_destroy_rec(n->child);
-    pheap_destroy_rec(n->sibling);
-    free(n);
-}
-
-void pheap_destroy(pheap *h)
-{
-    pheap_destroy_rec(h->root);
-}
-
-/* demo */
-int main(void)
-{
-    pheap h;
-    pheap_init(&h);
-
-    int a[] = {5, 3, 8, 1, 6};
-
-    for (int i = 0; i < 5; i++)
-        pheap_insert(&h, a[i]);
-
-    while (pheap_min(&h)) {
-        printf("%d ", *pheap_min(&h));
-        pheap_pop(&h);
+        /* опускаем родителя вниз */
+        h->data[i] = h->data[p];
+        i = p;
     }
 
+    /* вставляем элемент */
+    h->data[i] = k;
+    return 0;
+}
+
+/* Удаление минимума (heapify-down) */
+int bheap_pop(bheap *h)
+{
+    if (h->size == 0)
+        return -1;
+
+    key_t x = h->data[--h->size];  // последний элемент
+
+    size_t i = 0;
+
+    while (1) {
+        size_t l = left(i);
+        size_t r = right(i);
+
+        if (l >= h->size)
+            break; // нет детей
+
+        /* выбираем меньшего ребенка, правый проверяется только если он есть */
+        size_t s = (r < h->size && h->data[r] < h->data[l]) ? r : l;
+
+        /* если x уже меньше меньшего ребенка, то найдено место вставки */
+        if (x <= h->data[s])
+            break;
+
+        /* поднимаем ребенка */
+        h->data[i] = h->data[s];
+        i = s;
+    }
+
+    h->data[i] = x;
+    return 0;
+}
+
+/* Heap sort */
+int bheap_sort(key_t *a, size_t n)
+{
+    bheap *h = bheap_init(n);
+    if (!h) return -1;
+
+    /* Построение кучи */
+    for (size_t i = 0; i < n; ++i)
+        if (bheap_insert(h, a[i]))
+            {bheap_free(h); return -1;}
+
+    /* Извлечение массива */
+    for (size_t i = 0; i < n; ++i) 
+    {
+        key_t *m = bheap_min(h);
+        if (!m) 
+            {bheap_free(h); return -1;}
+
+
+        a[i] = *m;
+        if (bheap_pop(h))
+            {bheap_free(h); return -1;}
+    }
+    
+    bheap_free(h); /* Нужно освобождать даже пустую кучу */
+
+    return 0;
+}
+
+/* Демо */
+int main(void)
+{
+    key_t a[] = {5, 3, 8, 1, 6};
+    size_t n = sizeof(a)/sizeof(a[0]);
+
+    bheap_sort(a, n);
+
+    for (size_t i = 0; i < n; ++i)
+        printf("%d ", a[i]);
+
     printf("\n");
-    pheap_destroy(&h);
     return 0;
 }
