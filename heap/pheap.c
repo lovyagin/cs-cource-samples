@@ -3,14 +3,14 @@
 
 typedef int key_t;
 
-typedef struct pheap_node 
+typedef struct pheap_node
 {
     key_t key;
     struct pheap_node *child;
     struct pheap_node *sibling;
 } pheap_node;
 
-typedef struct 
+typedef struct
 {
     pheap_node *root;
 } pheap;

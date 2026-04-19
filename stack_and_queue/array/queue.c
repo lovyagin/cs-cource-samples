@@ -63,6 +63,7 @@ int queue_is_empty(const queue *q)
 int queue_is_full(const queue *q)
 {
     return ((q->tail + 1) % QUEUE_MAX_SIZE) == q->head;
+    // TODO: правда ли?
 }
 
 /* =========================================================
@@ -75,6 +76,7 @@ int queue_push(queue *q, int val)
 
     q->data[q->tail] = val;
     q->tail          = (q->tail + 1) % QUEUE_MAX_SIZE;
+
     return 0;
 }
 
@@ -83,7 +85,9 @@ int queue_pop(queue *q, int *val)
     if (queue_is_empty(q)) return -1;
 
     if (val) *val = q->data[q->head];
+
     q->head = (q->head + 1) % QUEUE_MAX_SIZE;
+
     return 0;
 }
 

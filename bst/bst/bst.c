@@ -148,13 +148,11 @@ bst *bst_predecessor(bst *root, bst *node)
 
 int bst_remove(bst **root, bst *node)
 {
-    if (!*root)
-        return 1; /* дерево пусто, в тч.. элемент не найден при рекурсии   */
-    if (node
-        == *root) /* нашли удаляемый элемент                               */
+    if (!*root) return 1; /* дерево пусто, в т.ч. элемент не найден при рекурсии   */
+
+    if (node == *root)    /* нашли удаляемый элемент                               */
     {
-        if (node->left
-            && node->right) /* есть оба поддерева                      */
+        if (node->left && node->right) /* есть оба поддерева                      */
         {
             /* находим и удаляем наименьший элемент    */
             /* в правом поддереве                      */
@@ -177,7 +175,7 @@ int bst_remove(bst **root, bst *node)
             return 0;
         }
     }
-    else if (node->key >= (*root)->key) /* удаляемый элемент в правом поддереве    */
+    else if (node->key > (*root)->key) /* удаляемый элемент в правом поддереве    */
         return bst_remove(&(*root)->right, node);
     else /* удаляемый элемент в левом поддереве     */
         return bst_remove(&(*root)->left, node);
